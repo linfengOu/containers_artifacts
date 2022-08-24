@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips-deployment
+  labels:
+    app: trips
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: trips
+        image: registryukc4468.azurecr.io/trips:1.0
+        ports:
+          - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: env-cm
+          - secretRef:
+              name: db-info
+

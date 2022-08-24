@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile-deployment
+  labels:
+    app: userprofile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      restartPolicy: Always
+      containers:
+      - name: userprofile
+        image: registryukc4468.azurecr.io/userprofile:1.0
+        ports:
+          - containerPort: 80
+        envFrom:
+          - configMapRef:
+              name: env-cm
+          - secretRef:
+              name: db-info
